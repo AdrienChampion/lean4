@@ -3,15 +3,15 @@
     "alectryon-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1646696858,
-        "narHash": "sha256-XdqpyXFv2KVGwgn9KGtOBUocobrnnXXZeiDIGSpo/IE=",
-        "owner": "insightmind",
+        "lastModified": 1648983871,
+        "narHash": "sha256-Xenmtxe/wZBq4xI+jd45IezINWVvY3aoBLuwrzV5ZEQ=",
+        "owner": "Kha",
         "repo": "alectryon",
-        "rev": "0c99a16df8ac2c500a21371629f63d011da7ef19",
+        "rev": "6ec91785a9076c45695c8efcc92225a05832242d",
         "type": "github"
       },
       "original": {
-        "owner": "insightmind",
+        "owner": "Kha",
         "ref": "typeid",
         "repo": "alectryon",
         "type": "github"
@@ -86,11 +86,11 @@
     "leanInk-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1648915882,
-        "narHash": "sha256-Lo22IOrs8fw9Zhd6xHwxOLyy6bAL+UCV1eEbnxJqXJw=",
+        "lastModified": 1649941279,
+        "narHash": "sha256-buqWjBvCDuuLo3Ijlw3r1yX6AL/HcM4ttskj/u2AhhE=",
         "owner": "leanprover",
         "repo": "LeanInk",
-        "rev": "18e807146fd2659faaa23d3a7b2f151711ab4971",
+        "rev": "ad9f1b2d518852cd25063d590a7fbea98e047471",
         "type": "github"
       },
       "original": {

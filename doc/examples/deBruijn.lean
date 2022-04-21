@@ -1,7 +1,5 @@
 /-|
-==========================================
-Dependent de Bruijn Indices
-==========================================
+# Dependent de Bruijn Indices
 
 In this example, we represent program syntax terms in a type family parameterized by a list of types,
 representing the typing context, or information on which free variables are in scope and what
@@ -72,7 +70,7 @@ We can write a function to translate `Ty` values to a Lean type
 — remember that types are first class, so can be calculated just like any other value.
 We mark `Ty.denote` as `[reducible]` to make sure the typeclass resolution procedure can
 unfold/reduce it. For example, suppose Lean is trying to synthesize a value for the instance
-`Add (Ty.denote Ty.nat)`. Since `Ty.denote` is marked as `[reducible],
+`Add (Ty.denote Ty.nat)`. Since `Ty.denote` is marked as `[reducible]`,
 the typeclass resolution procedure can reduce `Ty.denote Ty.nat` to `Nat`, and use
 the builtin instance for `Add Nat` as the solution.
 

@@ -1,14 +1,12 @@
 /-|
-==========================================
-Palindromes
-==========================================
+# Palindromes
 
 Palindromes are lists that read the same from left to right and from right to left.
 For example, `[a, b, b, a]` and `[a, h, a]` are palindromes.
 
 We use an inductive predicate to specify whether a list is a palindrome or not.
 Recall that inductive predicates, or inductively defined propositions, are a convenient
-way to specify functions of type `... → Prop`\ .
+way to specify functions of type `... → Prop`.
 
 This example is a based on an example from the book "The Hitchhiker's Guide to Logical Verification".
 -/
@@ -16,7 +14,7 @@ This example is a based on an example from the book "The Hitchhiker's Guide to L
 inductive Palindrome : List α → Prop where
   | nil      : Palindrome []
   | single   : (a : α) → Palindrome [a]
-  | sandwish : (a : α) → Palindrome as → Palindrome ([a] ++ as ++ [a])
+  | sandwich : (a : α) → Palindrome as → Palindrome ([a] ++ as ++ [a])
 
 /-|
 The definition distinguishes three cases: (1) `[]` is a palindrome; (2) for any element
@@ -25,20 +23,20 @@ The definition distinguishes three cases: (1) `[]` is a palindrome; (2) for any 
 -/
 
 /-|
-We now prove that the reverse of a palindrome is a palindrome using induction on the inductive predicate `h : Palindrome as`\ .
+We now prove that the reverse of a palindrome is a palindrome using induction on the inductive predicate `h : Palindrome as`.
 -/
 theorem palindrome_reverse (h : Palindrome as) : Palindrome as.reverse := by
   induction h with
   | nil => exact Palindrome.nil
   | single a => exact Palindrome.single a
-  | sandwish a h ih => simp; exact Palindrome.sandwish _ ih
+  | sandwich a h ih => simp; exact Palindrome.sandwich _ ih
 
 /-| If a list `as` is a palindrome, then the reverse of `as` is equal to itself. -/
 theorem reverse_eq_of_palindrome (h : Palindrome as) : as.reverse = as := by
   induction h with
   | nil => rfl
   | single a => rfl
-  | sandwish a h ih => simp [ih]
+  | sandwich a h ih => simp [ih]
 
 /-| Note that you can also easily prove `palindrome_reverse` using `reverse_eq_of_palindrome`. -/
 example (h : Palindrome as) : Palindrome as.reverse := by
@@ -66,8 +64,8 @@ We use the attribute `@[simp]` to instruct the `simp` tactic to use this theorem
     exact dropLast_append_last (as := a₂ :: as) (by simp)
 
 /-|
-We now define the following auxiliary induction principle for lists using well-founded recursion on `as.length`\ .
-We can read it as follows, to prove `motive as`, it suffices to show that: (1) `motive []`\ ; (2) `motive [a]` for any `a`;
+We now define the following auxiliary induction principle for lists using well-founded recursion on `as.length`.
+We can read it as follows, to prove `motive as`, it suffices to show that: (1) `motive []`; (2) `motive [a]` for any `a`;
 (3) if `motive as` holds, then `motive ([a] ++ as ++ [b])` also holds for any `a`, `b`, and `as`.
 Note that the structure of this induction principle is very similar to the `Palindrome` inductive predicate.
 -/
@@ -99,7 +97,7 @@ theorem List.palindrome_of_eq_reverse (h : as.reverse = as) : Palindrome as := b
     have : a = b := by simp_all
     subst this
     have : as.reverse = as := by simp_all
-    exact Palindrome.sandwish a (ih this)
+    exact Palindrome.sandwich a (ih this)
 
 /-|
 We now define a function that returns `true` iff `as` is a palindrome.
