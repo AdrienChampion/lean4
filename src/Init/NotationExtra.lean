@@ -88,7 +88,7 @@ macro:35 xs:bracketedExplicitBinders " ×' " b:term:35 : term => expandBrackedBi
 end
 
 -- enforce indentation of calc steps so we know when to stop parsing them
-syntax calcStep := ppIndent(colGe term " := " withPosition(term))
+syntax calcStep := ppIndent(colGe term " := " term)
 
 /-- Step-wise reasoning over transitive relations.
 ```
