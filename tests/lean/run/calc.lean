@@ -16,8 +16,23 @@ instance [LT α] : Trans (α := α) (· < ·) (· < ·) (· < ·) where
 theorem foo' : t1 < t5 :=
   let p := calc
     t1 = t2 := pf12
-    _ < t3 := pf23'
-    _ = t4 := pf34
-    _ < t5 := pf45'
+    _  < t3 := pf23'
+    _  = t4 := pf34
+    _  < t5 := pf45'
   -- dedent terminates the block
   p
+
+-- same-line `calc <first relation>`
+theorem foo'' : t1 < t5 :=
+  calc t1 = t2 := pf12
+       _  < t3 := pf23'
+       _  = t4 := pf34
+       _  < t5 := pf45'
+
+-- `calc <first relation LHS>\n<indent><relation and relation RHS>`
+theorem foo''' : t1 < t5 :=
+  calc t1
+      = t2 := pf12
+    _  < t3 := pf23'
+    _  = t4 := pf34
+    _  < t5 := pf45'
