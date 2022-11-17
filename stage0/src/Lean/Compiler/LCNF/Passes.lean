@@ -16,6 +16,7 @@ import Lean.Compiler.LCNF.ToMono
 import Lean.Compiler.LCNF.LambdaLifting
 import Lean.Compiler.LCNF.FloatLetIn
 import Lean.Compiler.LCNF.ReduceArity
+import Lean.Compiler.LCNF.ElimDeadBranches
 
 namespace Lean.Compiler.LCNF
 
@@ -50,6 +51,11 @@ def builtinPassManager : PassManager := {
     findJoinPoints,
     pullFunDecls,
     reduceJpArity,
+    /-
+    We apply `implementedBy` replacements before `specialize` to ensure we specialize the replacement.
+    One possible improvement is to perform only the replacements if the target declaration is a specialization target,
+    and on phase 2 (aka mono) perform the remaining replacements.
+    -/
     simp { etaPoly := true, inlinePartial := true, implementedBy := true } (occurrence := 1),
     eagerLambdaLifting,
     specialize,
@@ -65,6 +71,7 @@ def builtinPassManager : PassManager := {
     commonJoinPointArgs,
     simp (occurrence := 4) (phase := .mono),
     floatLetIn (phase := .mono) (occurrence := 2),
+    elimDeadBranches,
     lambdaLifting,
     extendJoinPointContext (phase := .mono) (occurrence := 1),
     simp (occurrence := 5) (phase := .mono),
