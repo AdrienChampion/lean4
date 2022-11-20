@@ -22,20 +22,20 @@ theorem foo₁ : t1 < t5 :=
   -- dedent terminates the block
   p
 
--- same-line `calc <first relation>`
+-- same-line `calc <first relation>` with normal indent afterwards
 theorem foo₂ : t1 < t5 :=
   calc t1 = t2 := pf12
-       _  < t3 := pf23'
-       _  = t4 := pf34
-       _  < t5 := pf45'
+    _  < t3 := pf23'
+    _  = t4 := pf34
+    _  < t5 := pf45'
 
 -- `calc <first relation LHS>\n<indent><relation and relation RHS>`
 theorem foo₃ : t1 < t5 :=
   calc t1
       = t2 := pf12
-    _  < t3 := pf23'
-    _  = t4 := pf34
-    _  < t5 := pf45'
+    _ < t3 := pf23'
+    _ = t4 := pf34
+    _ < t5 := pf45'
 
 -- `calc <first relation LHS>\n<indent><relation and relation RHS>`
 theorem foo₄ : t1 < t5 :=
@@ -44,9 +44,20 @@ theorem foo₄ : t1 < t5 :=
        _  = t4 := pf34
        _  < t5 := pf45'
 
+-- `by` with indented sequence of tactics in `calc`-item RHS
 theorem foo₅ : t1 = t4 :=
   calc
     t1 = t2 := pf12
     _  = t3 := by
+      skip
+      skip
       exact pf23
+    _  = t4 := pf34
+
+-- function application with indented argument in `calc`-item RHS
+theorem foo₆ : t1 = t4 :=
+  calc
+    t1 = t2 := pf12
+    _  = t3 := id
+      pf23
     _  = t4 := pf34
