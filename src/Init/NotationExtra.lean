@@ -88,6 +88,7 @@ macro:35 xs:bracketedExplicitBinders " ×' " b:term:35 : term => expandBrackedBi
 end
 
 -- enforce indentation of calc steps so we know when to stop parsing them
+syntax calcFirstStep := ppIndent(colGe term (" := " term)?)
 syntax calcStep := ppIndent(colGe term " := " term)
 
 /-- Step-wise reasoning over transitive relations.
@@ -108,7 +109,11 @@ See [Theorem Proving in Lean 4][tpil4] for more information.
 
 [tpil4]: https://leanprover.github.io/theorem_proving_in_lean4/quantifiers_and_equality.html#calculational-proofs
 -/
-syntax (name := calc) "calc" ppLine withPosition(calcStep) ppLine withPosition((calcStep ppLine)*) : term
+syntax (name := calc) "calc"
+  withPosition(calcFirstStep)
+  ppLine
+  withPosition((calcStep ppLine)*)
+: term
 
 /-- Step-wise reasoning over transitive relations.
 ```
