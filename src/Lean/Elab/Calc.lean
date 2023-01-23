@@ -69,7 +69,7 @@ def elabCalcSteps (steps : Array Syntax) : TermElabM Expr := do
 
 /-- Elaborator for the `calc` term mode variant. -/
 @[builtin_term_elab «calc»]
-def elabCalc' : TermElab := fun stx expectedType? => do
+def elabCalc : TermElab := fun stx expectedType? => do
   let first ← match stx[1] with
     | `(calcFirstStep| $term:term) =>
       `(calcStep| $term = _ := rfl)
