@@ -102,6 +102,23 @@ calc
 proves `a = z` from the given step-wise proofs. `=` can be replaced with any
 relation implementing the typeclass `Trans`. Instead of repeating the right-
 hand sides, subsequent left-hand sides can be replaced with `_`.
+```
+calc
+  a = b := pab
+  _ = c := pbc
+  ...
+  _ = z := pyz
+```
+It is also possible to write the *first* relation as `<lhs> _ = <rhs> :=
+<proof>`. This is useful for aligning relation symbols, especially on longer:
+identifiers:
+```
+calc abc
+  _ = bce := pabce
+  _ = cef := pbcef
+  ...
+  _ = xyz := pwxyz
+```
 
 `calc` has term mode and tactic mode variants. This is the term mode variant.
 
@@ -126,6 +143,22 @@ calc
 proves `a = z` from the given step-wise proofs. `=` can be replaced with any
 relation implementing the typeclass `Trans`. Instead of repeating the right-
 hand sides, subsequent left-hand sides can be replaced with `_`.
+```
+calc
+  a = b := pab
+  _ = c := pbc
+  ...
+  _ = z := pyz
+```
+It is also possible to write the *first* relation as `<lhs> _ = <rhs> :=
+<proof>`. This is useful for aligning relation symbols:
+```
+calc abc
+  _ = bce := pabce
+  _ = cef := pbcef
+  ...
+  _ = xyz := pwxyz
+```
 
 `calc` has term mode and tactic mode variants. This is the tactic mode variant,
 which supports an additional feature: it works even if the goal is `a = z'`
