@@ -70,14 +70,11 @@ def elabCalcSteps (steps : Array Syntax) : TermElabM Expr := do
 /-- Elaborator for the `calc` term mode variant. -/
 @[builtin_term_elab «calc»]
 def elabCalc' : TermElab := fun stx expectedType? => do
-  match stx with
-  | `(calc $first:calcFirstStep $rest:calcStep*) =>
-    let head ← match first with
-      | `(calcFirstStep| $term:term) =>
-        `(calcStep| $term = _ := rfl)
-      | `(calcFirstStep| $term := $proof) =>
-        `(calcStep| $term := $proof)
-      | _ => throwUnsupportedSyntax
-    let result ← elabCalcSteps (#[head] ++ rest)
-    ensureHasType expectedType? result
-  | _ => throwUnsupportedSyntax
+  let first ← match stx[1] with
+    | `(calcFirstStep| $term:term) =>
+      `(calcStep| $term = _ := rfl)
+    | `(calcFirstStep| $term := $proof) =>
+      `(calcStep| $term := $proof)
+    | _ => throwUnsupportedSyntax
+  let result ← elabCalcSteps (#[first] ++ stx[2].getArgs)
+  ensureHasType expectedType? result
