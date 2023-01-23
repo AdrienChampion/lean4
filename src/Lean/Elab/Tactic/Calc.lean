@@ -25,7 +25,14 @@ where
 @[builtin_tactic calcTactic]
 def evalCalc : Tactic := fun stx => do
   withMainContext do
-    let steps := #[stx[1]] ++ stx[2].getArgs
+    let first ←
+      match stx[1] with
+      | `(calcFirstStep| $term:term) =>
+        `(calcStep| $term = _ := rfl)
+      | `(calcFirstStep| $term := $proof) =>
+        `(calcStep| $term := $proof)
+      | _ => throwError "OMG 1"
+    let steps := #[first] ++ stx[2].getArgs
     let (val, mvarIds) ← withCollectingNewGoalsFrom (tagSuffix := `calc) do
       let val ← elabCalcSteps steps
       let valType ← inferType val
