@@ -61,3 +61,19 @@ theorem foo₆ : t1 = t4 :=
     _  = t3 := id
       pf23
     _  = t4 := pf34
+
+-- `calc <first relation LHS>\n<indent>_ <rel> <rhs> := <proof>` (term)
+theorem foo₇ : t1 < t5 :=
+  calc t1
+    _ = t2 := pf12
+    _ < t3 := pf23'
+    _ = t4 := pf34
+    _ < t5 := pf45'
+
+-- `calc <first relation LHS>\n<indent>_ <rel> <rhs> := <proof>` (tactic)
+theorem foo₈ : t1 < t5 := by
+  calc t1
+    _ = t2 := pf12
+    _ < t3 := pf23'
+    _ = t4 := pf34
+    _ < t5 := pf45'
