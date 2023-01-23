@@ -169,7 +169,11 @@ See [Theorem Proving in Lean 4][tpil4] for more information.
 
 [tpil4]: https://leanprover.github.io/theorem_proving_in_lean4/quantifiers_and_equality.html#calculational-proofs
 -/
-syntax (name := calcTactic) "calc" ppLine withPosition(calcStep) ppLine withPosition((calcStep ppLine)*) : tactic
+syntax (name := calcTactic) "calc"
+  withPosition(calcFirstStep)
+  ppLine
+  withPosition((calcStep ppLine)*)
+: tactic
 
 @[app_unexpander Unit.unit] def unexpandUnit : Lean.PrettyPrinter.Unexpander
   | `($(_)) => `(())
