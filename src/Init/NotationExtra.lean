@@ -127,10 +127,9 @@ See [Theorem Proving in Lean 4][tpil4] for more information.
 [tpil4]: https://leanprover.github.io/theorem_proving_in_lean4/quantifiers_and_equality.html#calculational-proofs
 -/
 syntax (name := calc) "calc"
-  withPosition(calcFirstStep)
-  ppLine
-  withPosition((calcStep ppLine)*)
-: term
+  ppLine withPosition(calcFirstStep)
+  ppLine withPosition((calcStep ppLine)*)
+  : term
 
 /-- Step-wise reasoning over transitive relations.
 ```
@@ -170,10 +169,9 @@ See [Theorem Proving in Lean 4][tpil4] for more information.
 [tpil4]: https://leanprover.github.io/theorem_proving_in_lean4/quantifiers_and_equality.html#calculational-proofs
 -/
 syntax (name := calcTactic) "calc"
-  withPosition(calcFirstStep)
-  ppLine
-  withPosition((calcStep ppLine)*)
-: tactic
+  ppLine withPosition(calcFirstStep)
+  ppLine withPosition((calcStep ppLine)*)
+  : tactic
 
 @[app_unexpander Unit.unit] def unexpandUnit : Lean.PrettyPrinter.Unexpander
   | `($(_)) => `(())
