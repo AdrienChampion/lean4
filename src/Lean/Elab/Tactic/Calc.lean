@@ -31,7 +31,7 @@ def evalCalc : Tactic := fun stx => do
         `(calcStep| $term = _ := rfl)
       | `(calcFirstStep| $term := $proof) =>
         `(calcStep| $term := $proof)
-      | _ => throwError "OMG 1"
+      | _ => throwUnsupportedSyntax
     let steps := #[first] ++ stx[2].getArgs
     let (val, mvarIds) ← withCollectingNewGoalsFrom (tagSuffix := `calc) do
       let val ← elabCalcSteps steps
