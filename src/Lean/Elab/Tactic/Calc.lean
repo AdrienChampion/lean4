@@ -9,7 +9,7 @@ import Lean.Elab.Tactic.ElabTerm
 namespace Lean.Elab.Tactic
 open Meta
 
-def elabCalcSteps (steps : Array Syntax) : TacticM Expr := do
+def elabCalcSteps (steps : Syntax) : TacticM Expr := do
   /- If error recovery is disabled, we disable `Term.withoutErrToSorry` -/
   if (← read).recover then
     go
@@ -25,16 +25,8 @@ where
 @[builtin_tactic calcTactic]
 def evalCalc : Tactic := fun stx => do
   withMainContext do
-    let first ←
-      match stx[1] with
-      | `(calcFirstStep| $term:term) =>
-        `(calcStep| $term = _ := rfl)
-      | `(calcFirstStep| $term := $proof) =>
-        `(calcStep| $term := $proof)
-      | _ => throwUnsupportedSyntax
-    let steps := #[first] ++ stx[2].getArgs
     let (val, mvarIds) ← withCollectingNewGoalsFrom (tagSuffix := `calc) do
-      let val ← elabCalcSteps steps
+      let val ← elabCalcSteps stx
       let valType ← inferType val
       let target ← getMainTarget
       if (← isDefEq valType target) then

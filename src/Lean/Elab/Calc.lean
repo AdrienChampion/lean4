@@ -44,9 +44,22 @@ def mkCalcTrans (result resultType step stepType : Expr) : MetaM (Expr × Expr) 
   | _ => throwError "invalid 'calc' step, failed to synthesize `Trans` instance{indentExpr selfType}"
 
 /--
+  Processes raw `calc` steps for the `calc` step elaborator.
+-/
+def prepareCalcSteps (stx : Syntax) : TermElabM (Array Syntax) := do
+  let first ← match stx[1] with
+    | `(calcFirstStep| $term:term) =>
+      `(calcStep| $term = _ := rfl)
+    | `(calcFirstStep| $term := $proof) =>
+      `(calcStep| $term := $proof)
+    | _ => throwUnsupportedSyntax
+  pure (#[first] ++ stx[2].getArgs)
+
+/--
   Elaborate `calc`-steps
 -/
-def elabCalcSteps (steps : Array Syntax) : TermElabM Expr := do
+def elabCalcSteps (steps : Syntax) : TermElabM Expr := do
+  let steps ← prepareCalcSteps steps
   let mut proofs := #[]
   let mut types  := #[]
   for step in steps do
@@ -70,11 +83,5 @@ def elabCalcSteps (steps : Array Syntax) : TermElabM Expr := do
 /-- Elaborator for the `calc` term mode variant. -/
 @[builtin_term_elab «calc»]
 def elabCalc : TermElab := fun stx expectedType? => do
-  let first ← match stx[1] with
-    | `(calcFirstStep| $term:term) =>
-      `(calcStep| $term = _ := rfl)
-    | `(calcFirstStep| $term := $proof) =>
-      `(calcStep| $term := $proof)
-    | _ => throwUnsupportedSyntax
-  let result ← elabCalcSteps (#[first] ++ stx[2].getArgs)
+  let result ← elabCalcSteps stx
   ensureHasType expectedType? result
