@@ -53,15 +53,6 @@ package {pkgName} where
 lean_lib {libRoot} where
   -- add library configuration options here
 
--- add dependencies here, for instance
---
--- ```lean
--- require mathlib from git
---   \"https://github.com/leanprover-community/mathlib4.git\" @ \"main\"
--- ```
---
--- for more see <https://github.com/leanprover/lean4/tree/master/src/lake#adding-dependencies>.
-
 @[default_target]
 lean_exe {exeName} where
   root := `Main
@@ -69,6 +60,19 @@ lean_exe {exeName} where
   -- `runFrontend`) at the expense of increased binary size on Linux.
   -- Remove this line if you do not need such functionality.
   supportInterpreter := true
+
+-- add dependencies here, for instance
+-- ```lean
+-- require mathlib from git
+--   \"https://github.com/leanprover-community/mathlib4.git\" @ \"master\"
+-- ```
+-- to depend on a git repository, or
+-- ```lean
+-- require mathlib from
+--  \"path\"/\"to\"/\"my\"/\"local\"/\"mathlib\"
+-- ```
+-- to depend on a local dependency. For more details see
+-- <https://github.com/leanprover/lean4/tree/master/src/lake#adding-dependencies>.
 "
 
 def exeConfigFileContents (pkgName exeRoot : String) :=
