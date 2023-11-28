@@ -53,6 +53,15 @@ package {pkgName} where
 lean_lib {libRoot} where
   -- add library configuration options here
 
+-- add dependencies here, for instance
+--
+-- ```lean
+-- require mathlib from git
+--   \"https://github.com/leanprover-community/mathlib4.git\" @ \"main\"
+-- ```
+--
+-- for more see <https://github.com/leanprover/lean4/tree/master/src/lake#adding-dependencies>.
+
 @[default_target]
 lean_exe {exeName} where
   root := `Main
